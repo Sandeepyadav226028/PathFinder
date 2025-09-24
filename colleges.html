@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Colleges - PathFinder</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Enhanced styles for animations and modern design */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar Enhancements */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4361ee;
+        }
+        
+        .nav-logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+            color: #4361ee;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin: 0 15px;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: #4361ee;
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4361ee;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+        
+        /* Colleges Header Enhancements */
+        .colleges-header {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 150px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .colleges-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        .colleges-header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .colleges-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .colleges-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Filter Section Enhancements */
+        .colleges-filter {
+            padding: 40px 20px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+        }
+        
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .search-box {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .filter-tag {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tag:hover {
+            background: #e2e8f0;
+        }
+        
+        .filter-tag.active {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+        }
+        
+        /* Colleges Section Enhancements */
+        .colleges-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .colleges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .college-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+        
+        .college-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .college-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .college-info h3 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .college-location {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .college-location i {
+            margin-right: 5px;
+            color: #4361ee;
+        }
+        
+        .college-rating {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        
+        .college-rating i {
+            color: #f9a826;
+            margin-right: 5px;
+        }
+        
+        .college-type {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .type-badge {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .college-details {
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            color: #555;
+        }
+        
+        .detail-item i {
+            margin-right: 5px;
+            color: #4361ee;
+        }
+        
+        .college-courses, .college-facilities {
+            padding: 0 20px 15px;
+        }
+        
+        .college-courses h4, .college-facilities h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-tags, .facility-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .course-tag, .facility-tag {
+            background: #f1f5f9;
+            color: #4361ee;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .facility-tag i {
+            margin-right: 5px;
+            color: #4361ee;
+        }
+        
+        .college-actions {
+            padding: 0 20px 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #4361ee;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        /* Footer Enhancements */
+        .footer {
+            background: linear-gradient(135deg, #2b2d42 0%, #121826 100%);
+            color: white;
+            padding: 60px 20px 20px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .footer-logo i {
+            margin-right: 10px;
+            color: #4361ee;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #4361ee;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #4361ee;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 20px 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu li {
+                margin: 15px 0;
+            }
+            
+            .colleges-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .colleges-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-compass"></i>
+                <span>PathFinder</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="careers.html">Careers</a></li>
+                <li><a href="colleges.html" class="active">Colleges</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+            <button class="nav-btn">Get Started</button>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Colleges Header -->
+    <section class="colleges-header">
+        <div class="colleges-header-content">
+            <h1>Government Colleges Near You</h1>
+            <p>Find the best government colleges in your area with detailed information</p>
+        </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="colleges-filter">
+        <div class="filter-container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search colleges..." id="collegeSearch">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="engineering">Engineering</button>
+                <button class="filter-tag" data-filter="arts">Arts & Science</button>
+                <button class="filter-tag" data-filter="technology">Technology</button>
+                <button class="filter-tag" data-filter="medical">Medical</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Colleges Grid -->
+    <section class="colleges-section">
+        <div class="colleges-grid">
+            <!-- College Card 1 -->
+            <div class="college-card" data-category="engineering">
+                <div class="college-header">
+                    <div class="college-info">
+                        <h3>Government College of Engineering</h3>
+                        <div class="college-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>2.5 km away</span>
+                        </div>
+                    </div>
+                    <div class="college-rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.2</span>
+                    </div>
+                </div>
+                <div class="college-type">
+                    <span class="type-badge">Engineering</span>
+                </div>
+                <div class="college-details">
+                    <div class="detail-item">
+                        <i class="fas fa-users"></i>
+                        <span>2,500 Students</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-rupee-sign"></i>
+                        <span>₹50,000/year</span>
+                    </div>
+                </div>
+                <div class="college-courses">
+                    <h4>Courses Offered:</h4>
+                    <div class="course-tags">
+                        <span class="course-tag">B.Tech CSE</span>
+                        <span class="course-tag">B.Tech ECE</span>
+                        <span class="course-tag">B.Tech ME</span>
+                    </div>
+                </div>
+                <div class="college-facilities">
+                    <h4>Facilities:</h4>
+                    <div class="facility-tags">
+                        <span class="facility-tag"><i class="fas fa-bed"></i> Hostel</span>
+                        <span class="facility-tag"><i class="fas fa-laptop"></i> Computer Lab</span>
+                        <span class="facility-tag"><i class="fas fa-book"></i> Library</span>
+                        <span class="facility-tag"><i class="fas fa-dumbbell"></i> Sports</span>
+                    </div>
+                </div>
+                <div class="college-actions">
+                    <button class="btn btn-primary" onclick="viewCollegeDetails('gce-engineering')">
+                        View Details
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveCollege('gce-engineering')">
+                        <i class="fas fa-heart"></i> Save
+                    </button>
+                </div>
+            </div>
+
+            <!-- College Card 2 -->
+            <div class="college-card" data-category="arts">
+                <div class="college-header">
+                    <div class="college-info">
+                        <h3>Delhi University - North Campus</h3>
+                        <div class="college-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>5.0 km away</span>
+                        </div>
+                    </div>
+                    <div class="college-rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.5</span>
+                    </div>
+                </div>
+                <div class="college-type">
+                    <span class="type-badge">Arts & Science</span>
+                </div>
+                <div class="college-details">
+                    <div class="detail-item">
+                        <i class="fas fa-users"></i>
+                        <span>5,000 Students</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-rupee-sign"></i>
+                        <span>₹15,000/year</span>
+                    </div>
+                </div>
+                <div class="college-courses">
+                    <h4>Courses Offered:</h4>
+                    <div class="course-tags">
+                        <span class="course-tag">B.A English</span>
+                        <span class="course-tag">B.Sc Physics</span>
+                        <span class="course-tag">B.Com</span>
+                    </div>
+                </div>
+                <div class="college-facilities">
+                    <h4>Facilities:</h4>
+                    <div class="facility-tags">
+                        <span class="facility-tag"><i class="fas fa-book"></i> Library</span>
+                        <span class="facility-tag"><i class="fas fa-wifi"></i> WiFi</span>
+                        <span class="facility-tag"><i class="fas fa-utensils"></i> Canteen</span>
+                        <span class="facility-tag"><i class="fas fa-theater-masks"></i> Auditorium</span>
+                    </div>
+                </div>
+                <div class="college-actions">
+                    <button class="btn btn-primary" onclick="viewCollegeDetails('du-north')">
+                        View Details
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveCollege('du-north')">
+                        <i class="fas fa-heart"></i> Save
+                    </button>
+                </div>
+            </div>
+
+            <!-- College Card 3 -->
+            <div class="college-card" data-category="technology">
+                <div class="college-header">
+                    <div class="college-info">
+                        <h3>Government Polytechnic College</h3>
+                        <div class="college-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>3.8 km away</span>
+                        </div>
+                    </div>
+                    <div class="college-rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.0</span>
+                    </div>
+                </div>
+                <div class="college-type">
+                    <span class="type-badge">Technology</span>
+                </div>
+                <div class="college-details">
+                    <div class="detail-item">
+                        <i class="fas fa-users"></i>
+                        <span>1,800 Students</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-rupee-sign"></i>
+                        <span>₹25,000/year</span>
+                    </div>
+                </div>
+                <div class="college-courses">
+                    <h4>Courses Offered:</h4>
+                    <div class="course-tags">
+                        <span class="course-tag">Diploma Mechanical</span>
+                        <span class="course-tag">Diploma Civil</span>
+                        <span class="course-tag">Diploma EEE</span>
+                    </div>
+                </div>
+                <div class="college-facilities">
+                    <h4>Facilities:</h4>
+                    <div class="facility-tags">
+                        <span class="facility-tag"><i class="fas fa-flask"></i> Laboratory</span>
+                        <span class="facility-tag"><i class="fas fa-tools"></i> Workshop</span>
+                        <span class="facility-tag"><i class="fas fa-bed"></i> Hostel</span>
+                        <span class="facility-tag"><i class="fas fa-dumbbell"></i> Sports</span>
+                    </div>
+                </div>
+                <div class="college-actions">
+                    <button class="btn btn-primary" onclick="viewCollegeDetails('gpc-technology')">
+                        View Details
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveCollege('gpc-technology')">
+                        <i class="fas fa-heart"></i> Save
+                    </button>
+                </div>
+            </div>
+
+            <!-- College Card 4 -->
+            <div class="college-card" data-category="medical">
+                <div class="college-header">
+                    <div class="college-info">
+                        <h3>Government Medical College</h3>
+                        <div class="college-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>7.2 km away</span>
+                        </div>
+                    </div>
+                    <div class="college-rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.7</span>
+                    </div>
+                </div>
+                <div class="college-type">
+                    <span class="type-badge">Medical</span>
+                </div>
+                <div class="college-details">
+                    <div class="detail-item">
+                        <i class="fas fa-users"></i>
+                        <span>1,200 Students</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-rupee-sign"></i>
+                        <span>₹25,000/year</span>
+                    </div>
+                </div>
+                <div class="college-courses">
+                    <h4>Courses Offered:</h4>
+                    <div class="course-tags">
+                        <span class="course-tag">MBBS</span>
+                        <span class="course-tag">BDS</span>
+                        <span class="course-tag">B.Sc Nursing</span>
+                    </div>
+                </div>
+                <div class="college-facilities">
+                    <h4>Facilities:</h4>
+                    <div class="facility-tags">
+                        <span class="facility-tag"><i class="fas fa-hospital"></i> Hospital</span>
+                        <span class="facility-tag"><i class="fas fa-microscope"></i> Labs</span>
+                        <span class="facility-tag"><i class="fas fa-bed"></i> Hostel</span>
+                        <span class="facility-tag"><i class="fas fa-book"></i> Library</span>
+                    </div>
+                </div>
+                <div class="college-actions">
+                    <button class="btn btn-primary" onclick="viewCollegeDetails('gmc-medical')">
+                        View Details
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveCollege('gmc-medical')">
+                        <i class="fas fa-heart"></i> Save
+                    </button>
+                </div>
+            </div>
+
+            <!-- College Card 5 -->
+            <div class="college-card" data-category="engineering">
+                <div class="college-header">
+                    <div class="college-info">
+                        <h3>Indian Institute of Technology</h3>
+                        <div class="college-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>12.0 km away</span>
+                        </div>
+                    </div>
+                    <div class="college-rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.9</span>
+                    </div>
+                </div>
+                <div class="college-type">
+                    <span class="type-badge">Engineering</span>
+                </div>
+                <div class="college-details">
+                    <div class="detail-item">
+                        <i class="fas fa-users"></i>
+                        <span>8,000 Students</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-rupee-sign"></i>
+                        <span>₹90,000/year</span>
+                    </div>
+                </div>
+                <div class="college-courses">
+                    <h4>Courses Offered:</h4>
+                    <div class="course-tags">
+                        <span class="course-tag">B.Tech CSE</span>
+                        <span class="course-tag">B.Tech ECE</span>
+                        <span class="course-tag">B.Tech ME</span>
+                        <span class="course-tag">M.Tech</span>
+                    </div>
+                </div>
+                <div class="college-facilities">
+                    <h4>Facilities:</h4>
+                    <div class="facility-tags">
+                        <span class="facility-tag"><i class="fas fa-laptop"></i> Computer Lab</span>
+                        <span class="facility-tag"><i class="fas fa-book"></i> Library</span>
+                        <span class="facility-tag"><i class="fas fa-bed"></i> Hostel</span>
+                        <span class="facility-tag"><i class="fas fa-dumbbell"></i> Sports Complex</span>
+                    </div>
+                </div>
+                <div class="college-actions">
+                    <button class="btn btn-primary" onclick="viewCollegeDetails('iit-engineering')">
+                        View Details
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveCollege('iit-engineering')">
+                        <i class="fas fa-heart"></i> Save
+                    </button>
+                </div>
+            </div>
+
+            <!-- College Card 6 -->
+            <div class="college-card" data-category="arts">
+                <div class="college-header">
+                    <div class="college-info">
+                        <h3>Government Arts College</h3>
+                        <div class="college-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>4.5 km away</span>
+                        </div>
+                    </div>
+                    <div class="college-rating">
+                        <i class="fas fa-star"></i>
+                        <span>3.8</span>
+                    </div>
+                </div>
+                <div class="college-type">
+                    <span class="type-badge">Arts & Science</span>
+                </div>
+                <div class="college-details">
+                    <div class="detail-item">
+                        <i class="fas fa-users"></i>
+                        <span>3,200 Students</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-rupee-sign"></i>
+                        <span>₹12,000/year</span>
+                    </div>
+                </div>
+                <div class="college-courses">
+                    <h4>Courses Offered:</h4>
+                    <div class="course-tags">
+                        <span class="course-tag">B.A History</span>
+                        <span class="course-tag">B.A Economics</span>
+                        <span class="course-tag">B.Sc Chemistry</span>
+                    </div>
+                </div>
+                <div class="college-facilities">
+                    <h4>Facilities:</h4>
+                    <div class="facility-tags">
+                        <span class="facility-tag"><i class="fas fa-book"></i> Library</span>
+                        <span class="facility-tag"><i class="fas fa-flask"></i> Science Lab</span>
+                        <span class="facility-tag"><i class="fas fa-theater-masks"></i> Auditorium</span>
+                        <span class="facility-tag"><i class="fas fa-utensils"></i> Canteen</span>
+                    </div>
+                </div>
+                <div class="college-actions">
+                    <button class="btn btn-primary" onclick="viewCollegeDetails('gac-arts')">
+                        View Details
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveCollege('gac-arts')">
+                        <i class="fas fa-heart"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <i class="fas fa-compass"></i>
+                    <span>PathFinder</span>
+                </div>
+                <p>Your trusted career guidance companion</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="quiz.html">Quiz</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="colleges.html">Colleges</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> info@pathfinder.edu</li>
+                    <li><i class="fas fa-phone"></i> +91 123 456 7890</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 PathFinder. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Elfsight AI Chatbot widget (footer placement) -->
+    <script src="https://elfsightcdn.com/platform.js" async></script>
+    <div class="elfsight-app-5bf63fa9-b653-4d61-98ff-0a2033d3c515" data-elfsight-app-lazy></div>
+
+<script src="js/colleges.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/profile.js"></script>
+<script>
+    // Enhanced JavaScript for animations and interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hamburger menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+        
+        // College cards animation on scroll
+        const collegeCards = document.querySelectorAll('.college-card');
+        
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = `${entry.target.dataset.index * 0.1}s`;
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+        
+        collegeCards.forEach((card, index) => {
+            card.dataset.index = index;
+            observer.observe(card);
+        });
+        
+        // Filter functionality
+        const filterTags = document.querySelectorAll('.filter-tag');
+        
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Remove active class from all tags
+                filterTags.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tag
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                
+                // Show/hide college cards based on filter
+                collegeCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.getElementById('collegeSearch');
+        
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            collegeCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('.college-type .type-badge').textContent.toLowerCase();
+                const courses = Array.from(card.querySelectorAll('.course-tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm) || courses.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            
+            if (window.scrollY > 50) {
+                navbar.style.padding = '10px 0';
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.padding = '15px 0';
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    });
+</script>
+</body>
+</html>

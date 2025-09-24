@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Paths - PathFinder</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Enhanced styles for animations and modern design */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar Enhancements */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4361ee;
+        }
+        
+        .nav-logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+            color: #4361ee;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin: 0 15px;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: #4361ee;
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4361ee;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+        
+        /* Careers Header Enhancements */
+        .careers-header {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 150px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .careers-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        .careers-header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .careers-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .careers-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Filter Section Enhancements */
+        .careers-filter {
+            padding: 40px 20px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+        }
+        
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .search-box {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 45px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .filter-tag {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tag:hover {
+            background: #e2e8f0;
+        }
+        
+        .filter-tag.active {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+        }
+        
+        /* Careers Section Enhancements */
+        .careers-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .careers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .career-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+        
+        .career-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .career-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .career-header h3 {
+            font-size: 1.4rem;
+            color: #333;
+        }
+        
+        .career-field {
+            background: #4361ee;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .career-description {
+            padding: 20px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .career-details {
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .career-salary, .career-demand {
+            display: flex;
+            align-items: center;
+            color: #555;
+        }
+        
+        .career-salary i, .career-demand i {
+            margin-right: 5px;
+            color: #4361ee;
+        }
+        
+        .career-skills, .career-courses {
+            padding: 0 20px 15px;
+        }
+        
+        .career-skills h4, .career-courses h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .skill-tag {
+            background: #f1f5f9;
+            color: #4361ee;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .career-courses p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+        
+        .career-btn {
+            width: 90%;
+            margin: 0 auto 20px;
+            display: block;
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            border: none;
+            padding: 12px 0;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .career-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        /* Footer Enhancements */
+        .footer {
+            background: linear-gradient(135deg, #2b2d42 0%, #121826 100%);
+            color: white;
+            padding: 60px 20px 20px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .footer-logo i {
+            margin-right: 10px;
+            color: #4361ee;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #4361ee;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #4361ee;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 20px 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu li {
+                margin: 15px 0;
+            }
+            
+            .careers-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .careers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-compass"></i>
+                <span>PathFinder</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="careers.html" class="active">Careers</a></li>
+                <li><a href="colleges.html">Colleges</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+            <button class="nav-btn">Get Started</button>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Careers Header -->
+    <section class="careers-header">
+        <div class="careers-header-content">
+            <h1>Explore Career Paths</h1>
+            <p>Discover career opportunities that match your interests and skills</p>
+        </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="careers-filter">
+        <div class="filter-container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search careers..." id="careerSearch">
+            </div>
+            <div class="filter-tags">
+                <button class="filter-tag active" data-filter="all">All</button>
+                <button class="filter-tag" data-filter="technology">Technology</button>
+                <button class="filter-tag" data-filter="engineering">Engineering</button>
+                <button class="filter-tag" data-filter="medical">Medical</button>
+                <button class="filter-tag" data-filter="business">Business</button>
+                <button class="filter-tag" data-filter="arts">Arts</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Careers Grid -->
+    <section class="careers-section">
+        <div class="careers-grid">
+            <!-- Career Card 1 -->
+            <div class="career-card" data-category="technology">
+                <div class="career-header">
+                    <h3>Software Engineer</h3>
+                    <span class="career-field">Technology</span>
+                </div>
+                <div class="career-description">
+                    <p>Design, develop, and maintain software applications and systems for various platforms and industries.</p>
+                </div>
+                <div class="career-details">
+                    <div class="career-salary">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>₹8 - 25 LPA</span>
+                    </div>
+                    <div class="career-demand">
+                        <i class="fas fa-fire"></i>
+                        <span>Very High Demand</span>
+                    </div>
+                </div>
+                <div class="career-skills">
+                    <h4>Key Skills:</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Programming</span>
+                        <span class="skill-tag">Problem Solving</span>
+                        <span class="skill-tag">Algorithms</span>
+                    </div>
+                </div>
+                <div class="career-courses">
+                    <h4>Related Courses:</h4>
+                    <p>B.Tech Computer Science, BCA, MCA</p>
+                </div>
+                <button class="btn btn-primary career-btn" onclick="viewCareerDetails('software-engineer')">
+                    View Details
+                </button>
+            </div>
+
+            <!-- Career Card 2 -->
+            <div class="career-card" data-category="engineering">
+                <div class="career-header">
+                    <h3>Mechanical Engineer</h3>
+                    <span class="career-field">Engineering</span>
+                </div>
+                <div class="career-description">
+                    <p>Design, analyze, and manufacture mechanical systems and devices for various industries.</p>
+                </div>
+                <div class="career-details">
+                    <div class="career-salary">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>₹6 - 20 LPA</span>
+                    </div>
+                    <div class="career-demand">
+                        <i class="fas fa-fire"></i>
+                        <span>High Demand</span>
+                    </div>
+                </div>
+                <div class="career-skills">
+                    <h4>Key Skills:</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">CAD Design</span>
+                        <span class="skill-tag">Thermodynamics</span>
+                        <span class="skill-tag">Manufacturing</span>
+                    </div>
+                </div>
+                <div class="career-courses">
+                    <h4>Related Courses:</h4>
+                    <p>B.Tech Mechanical Engineering, Diploma in Mechanical</p>
+                </div>
+                <button class="btn btn-primary career-btn" onclick="viewCareerDetails('mechanical-engineer')">
+                    View Details
+                </button>
+            </div>
+
+            <!-- Career Card 3 -->
+            <div class="career-card" data-category="medical">
+                <div class="career-header">
+                    <h3>Doctor</h3>
+                    <span class="career-field">Medical</span>
+                </div>
+                <div class="career-description">
+                    <p>Diagnose and treat illnesses, injuries, and other health conditions in patients.</p>
+                </div>
+                <div class="career-details">
+                    <div class="career-salary">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>₹10 - 50 LPA</span>
+                    </div>
+                    <div class="career-demand">
+                        <i class="fas fa-fire"></i>
+                        <span>Very High Demand</span>
+                    </div>
+                </div>
+                <div class="career-skills">
+                    <h4>Key Skills:</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Medical Knowledge</span>
+                        <span class="skill-tag">Diagnosis</span>
+                        <span class="skill-tag">Patient Care</span>
+                    </div>
+                </div>
+                <div class="career-courses">
+                    <h4>Related Courses:</h4>
+                    <p>MBBS, BDS, BHMS, BAMS</p>
+                </div>
+                <button class="btn btn-primary career-btn" onclick="viewCareerDetails('doctor')">
+                    View Details
+                </button>
+            </div>
+
+            <!-- Career Card 4 -->
+            <div class="career-card" data-category="business">
+                <div class="career-header">
+                    <h3>Business Analyst</h3>
+                    <span class="career-field">Business</span>
+                </div>
+                <div class="career-description">
+                    <p>Analyze business processes, identify requirements, and provide solutions to business problems.</p>
+                </div>
+                <div class="career-details">
+                    <div class="career-salary">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>₹7 - 22 LPA</span>
+                    </div>
+                    <div class="career-demand">
+                        <i class="fas fa-fire"></i>
+                        <span>High Demand</span>
+                    </div>
+                </div>
+                <div class="career-skills">
+                    <h4>Key Skills:</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Data Analysis</span>
+                        <span class="skill-tag">Communication</span>
+                        <span class="skill-tag">Problem Solving</span>
+                    </div>
+                </div>
+                <div class="career-courses">
+                    <h4>Related Courses:</h4>
+                    <p>BBA, MBA, B.Com, Economics</p>
+                </div>
+                <button class="btn btn-primary career-btn" onclick="viewCareerDetails('business-analyst')">
+                    View Details
+                </button>
+            </div>
+
+            <!-- Career Card 5 -->
+            <div class="career-card" data-category="arts">
+                <div class="career-header">
+                    <h3>Content Writer</h3>
+                    <span class="career-field">Arts</span>
+                </div>
+                <div class="career-description">
+                    <p>Create engaging content for websites, blogs, social media, and marketing materials.</p>
+                </div>
+                <div class="career-details">
+                    <div class="career-salary">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>₹4 - 15 LPA</span>
+                    </div>
+                    <div class="career-demand">
+                        <i class="fas fa-fire"></i>
+                        <span>High Demand</span>
+                    </div>
+                </div>
+                <div class="career-skills">
+                    <h4>Key Skills:</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Writing</span>
+                        <span class="skill-tag">Creativity</span>
+                        <span class="skill-tag">SEO</span>
+                    </div>
+                </div>
+                <div class="career-courses">
+                    <h4>Related Courses:</h4>
+                    <p>B.A. English, Journalism, Mass Communication</p>
+                </div>
+                <button class="btn btn-primary career-btn" onclick="viewCareerDetails('content-writer')">
+                    View Details
+                </button>
+            </div>
+
+            <!-- Career Card 6 -->
+            <div class="career-card" data-category="technology">
+                <div class="career-header">
+                    <h3>Data Scientist</h3>
+                    <span class="career-field">Technology</span>
+                </div>
+                <div class="career-description">
+                    <p>Analyze complex data to extract insights and support decision-making processes.</p>
+                </div>
+                <div class="career-details">
+                    <div class="career-salary">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>₹12 - 35 LPA</span>
+                    </div>
+                    <div class="career-demand">
+                        <i class="fas fa-fire"></i>
+                        <span>Very High Demand</span>
+                    </div>
+                </div>
+                <div class="career-skills">
+                    <h4>Key Skills:</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python/R</span>
+                        <span class="skill-tag">Statistics</span>
+                        <span class="skill-tag">Machine Learning</span>
+                    </div>
+                </div>
+                <div class="career-courses">
+                    <h4>Related Courses:</h4>
+                    <p>B.Tech CS, M.Sc. Statistics, Data Science</p>
+                </div>
+                <button class="btn btn-primary career-btn" onclick="viewCareerDetails('data-scientist')">
+                    View Details
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <i class="fas fa-compass"></i>
+                    <span>PathFinder</span>
+                </div>
+                <p>Your trusted career guidance companion</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="quiz.html">Quiz</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="colleges.html">Colleges</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> info@pathfinder.edu</li>
+                    <li><i class="fas fa-phone"></i> +91 123 456 7890</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 PathFinder. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Elfsight AI Chatbot widget (footer placement) -->
+    <script src="https://elfsightcdn.com/platform.js" async></script>
+    <div class="elfsight-app-5bf63fa9-b653-4d61-98ff-0a2033d3c515" data-elfsight-app-lazy></div>
+
+<script src="js/careers.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/profile.js"></script>
+<script>
+    // Enhanced JavaScript for animations and interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hamburger menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Career cards animation on scroll
+        const careerCards = document.querySelectorAll('.career-card');
+        
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = `${entry.target.dataset.index * 0.1}s`;
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+        
+        careerCards.forEach((card, index) => {
+            card.dataset.index = index;
+            observer.observe(card);
+        });
+        
+        // Filter functionality
+        const filterTags = document.querySelectorAll('.filter-tag');
+        
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Remove active class from all tags
+                filterTags.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tag
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                
+                // Show/hide career cards based on filter
+                careerCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.getElementById('careerSearch');
+        
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            careerCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('.career-description p').textContent.toLowerCase();
+                const skills = Array.from(card.querySelectorAll('.skill-tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm) || skills.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            
+            if (window.scrollY > 50) {
+                navbar.style.padding = '10px 0';
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.padding = '15px 0';
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    });
+</script>
+</body>
+</html>
